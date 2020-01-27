@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameDefines.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Point2D.h" />
     <ClInclude Include="Space.h" />
