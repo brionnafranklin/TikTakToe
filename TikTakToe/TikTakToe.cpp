@@ -1,0 +1,8 @@
+#include "pch.h"
+#include <iostream>
+#include "Game.h"
+
+int main()
+{
+	Game game;
+}
