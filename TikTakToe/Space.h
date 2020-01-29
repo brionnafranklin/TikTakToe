@@ -1,6 +1,7 @@
 #pragma once
 #include "Point2D.h"
 #include <vector> 
+#include "GameDefines.h"
 
 class Space
 {
@@ -13,7 +14,11 @@ public:
 
 	int getType();
 
+	void draw();
+
 private:
 	Point2D m_mapPosition;
+
+	int m_type;
 };
 
