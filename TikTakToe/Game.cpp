@@ -2,77 +2,109 @@
 #include "Game.h"
 #include <iostream>
 
+//default constructer for game
 Game::Game() : m_gameOver{ false }, m_playerNum{ false }
 {
 }
 
+//default deconstructer for game
 Game::~Game()
 {
 }
 
+//runs once when the game starts
 bool Game::startup()
 {
+	//draws the board with only empty tiles
 	initializeBoard();
-
+	//returns true to show that the board has been drawn the first time
 	return true;
 }
 
+//clears the outdated board and replaces it with one with the correct tiles
 void Game::draw()
 {
+	//clears board
 	system("cls");
+	//redraws board
 	drawBoard();
 }
 
+//starts a new turn and waits before updating
 void Game::update()
 {
+	//starts a new turn
 	playerNumController();
+	//waits
 	system("pause");
 }
 
+//draws the board the first time
 void Game::initializeBoard()
 {
 	// set space positions
+	//iterate through the y-axis
 	for (int y = 0; y < BOARD_HEIGHT; y++) 
 	{
+		//iterate through the x-axis
 		for (int x = 0; x < BOARD_WIDTH; x++) 
 		{
+			//set each space to empty
 			m_board[y][x] = EMPTY_TILE;
-			//m_board[y][x].setPosition(Point2D{ x, y });
 		}
 	}
 }
 
+//draws each tile of the board
 void Game::drawBoard()
 {
+	//skip line
 	std::cout << std::endl;
+	//skip line
 	std::cout << std::endl;
+	//iterate through the y-axis
 	for (int y = 0; y < BOARD_HEIGHT; y++)
 	{
+		//skip line
 		std::cout << INDENT;
+		//iterate through the x-axis
 		for (int x = 0; x < BOARD_WIDTH; x++)
 		{
+			//print the tile at coordinants on the board
 			std::cout << m_board[y][x];
-			//m_board[y][x].draw();
 		}
+		//skip line
 		std::cout << std::endl;
 	}
+	//skip line
 	std::cout << std::endl;
 }
 
+//returns the value of m_gameOver
 bool Game::isGameOver()
 {
+	//returns true or false based on the value of m_gameOver;
 	return m_gameOver;
 }
 
+//takes a player's input and places their tile in the coorisponding cooridinent. then determines if there is a winner or a tie after
 bool Game::getInput(int player)
 {
+	//declares input as an int
 	int input = 0;
 
+	//asks for input from the player whomst turn it is
 	std::cout << INDENT << "player : " << player + 1 << " Please select a space using the number pad:" << INDENT;
 	std::cin.clear();
 	std::cin.ignore(std::cin.rdbuf()->in_avail());
 
 	std::cin >> input;
+
+	if (input == 0)
+	{
+		std::cout << INDENT << "You try, but you just can't do it." << std::endl;
+		return false;
+	}
 
 	while (input)
 	{
@@ -123,11 +155,6 @@ bool Game::getInput(int player)
 		{
 			x = 2;
 			y = 2;
-		}
-		else 
-		{ 
-			std::cout << INDENT << "You try, but you just can't do it." << std::endl;
-			return false;
 		}
 
 		if (m_board[y][x] == EMPTY_TILE)

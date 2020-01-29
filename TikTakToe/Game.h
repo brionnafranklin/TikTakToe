@@ -1,6 +1,5 @@
 #pragma once
 #include "GameDefines.h"
-#include "Space.h"
 
 class Game
 {
