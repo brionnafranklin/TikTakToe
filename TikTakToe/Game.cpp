@@ -98,173 +98,237 @@ bool Game::getInput(int player)
 	std::cin.clear();
 	std::cin.ignore(std::cin.rdbuf()->in_avail());
 
+	//take in input
 	std::cin >> input;
 
+	//check for valid input
 	if (input == 0)
 	{
+		//tell the user they did something wrong
 		std::cout << INDENT << "You try, but you just can't do it." << std::endl;
+		//return and restart turn
 		return false;
 	}
 
+	//if input is valid
 	while (input)
 	{
+		//declare x as an int
 		int x;
+		//declare y as an int
 		int y;
 
+		//if player selects position 7 
 		if (input == 7)
 		{
+			//set x
 			x = 0;
+			//set y
 			y = 0;
 		}
+		//if player selects position 8
 		else if (input == 8)
 		{
+			//set x
 			x = 1;
+			//set y
 			y = 0;
 		}
+		//if player selects position 9
 		else if (input == 9)
 		{
+			//set x
 			x = 2;
+			//set y
 			y = 0;
 		}
+		//if player selects position 4
 		else if (input == 4)
 		{
+			//set x
 			x = 0;
+			//set y
 			y = 1;
 		}
+		//if player selects position 5
 		else if (input == 5)
 		{
+			//set x
 			x = 1;
+			//set y
 			y = 1;
 		}
+		//if player selects position 6
 		else if (input == 6)
 		{
+			//set x
 			x = 2;
+			//set y
 			y = 1;
 		}
+		//if player selects position 1
 		else if (input == 1)
 		{
+			//set x
 			x = 0;
+			//set y
 			y = 2;
 		}
+		//if player selects position 2
 		else if (input == 2)
 		{
+			//set x
 			x = 1;
+			//set y
 			y = 2;
 		}
+		//if player selects position 3
 		else if (input == 3)
 		{
+			//set x
 			x = 2;
+			//set y
 			y = 2;
 		}
 
+		//make sure the space is empty
 		if (m_board[y][x] == EMPTY_TILE)
 		{
+			//if player is 1 (true)
 			if (player)
 			{
+				//set the position on the board to player 2's token
 				m_board[y][x] = PLAYER2_TILE;
 			}
 			else
 			{
+				//set the position on the board to player 1's token
 				m_board[y][x] = PLAYER1_TILE;
 			}
 
+			//if one of the players got 3 in a row after this turn
 			if (checkForWin())
 			{
+				//redraw the board
 				draw();
+				//print winner message
 				std::cout << INDENT << "Player : " << player + 1 << " wins!" << INDENT;
+				//set game to be over
 				m_gameOver = true;
 			}
 
+			//if there are no empty tiles left after this turn
 			if (checkForTie())
 			{
+				//redraw the board
 				draw();
+				//print loosing message
 				std::cout << INDENT << "Congratulations! You both loose!" << INDENT;
+				//set game to be over
 				m_gameOver = true;
 			}
 
+			//end turn
 			return true;
 		}
 		else
 		{
+			//print a message letting the player know something went wrong
 			std::cout << INDENT << "You try, but you just can't do it." << std::endl;
+			//restart turn
 			return false;
 		}
 	}
 }
 
-bool Game::getPlayerNum()
-{
-	return m_playerNum;
-}
-
+//changes which player's turn it is
 bool Game::playerNumController()
 {
+	//if the turn ends successfully
 	if (getInput(m_playerNum))
 	{
+		//make whatever playerNum equals (true/1 or false/0) the opisite
 		return m_playerNum = !m_playerNum;
 	}
 	else
 	{
+		//failed turn results is restarting that player's turn
 		return m_playerNum;
 	}
 }
 
+//checks to see if a player has 3 connecting tokens
 bool Game::checkForWin()
 {
-	// 7, 4, 1
+	//checks to see if the tiles in positions 7, 4, and 1 are equal and not empty
 	if (m_board[0][0] == m_board[1][0] && m_board[0][0] == m_board[2][0] && m_board[0][0] != EMPTY_TILE)
 	{
+		//returns to show a player has won
 		return true;
 	}
-	// 8, 5, 2
+	//checks to see if the tiles in positions 8, 5, and 2 are equal and not empty
 	if (m_board[0][1] == m_board[1][1] && m_board[0][1] == m_board[2][1] && m_board[0][1] != EMPTY_TILE)
 	{
+		//returns to show a player has won
 		return true;
 	}
-	// 9, 6, 3
+	//checks to see if the tiles in positions 9, 6, and 3 are equal and not empty
 	if (m_board[0][2] == m_board[1][2] && m_board[0][2] == m_board[2][2] && m_board[0][2] != EMPTY_TILE)
 	{
+		//returns to show a player has won
 		return true;
 	}
-	// 7, 8, 9
+	//checks to see if the tiles in positions 7, 8, and 9 are equal and not empty
 	if (m_board[0][0] == m_board[0][1] && m_board[0][0] == m_board[0][2] && m_board[0][0] != EMPTY_TILE)
 	{
+		//returns to show a player has won
 		return true;
 	}
-	//4, 5, 6
+	//checks to see if the tiles in positions4, 5, and 6 are equal and not empty
 	if (m_board[1][0] == m_board[1][1] && m_board[1][0] == m_board[1][2] && m_board[1][0] != EMPTY_TILE)
 	{
+		//returns to show a player has won
 		return true;
 	}
-	// 1, 2, 3
+	//checks to see if the tiles in positions 1, 2, and 3 are equal and not empty
 	if (m_board[2][0] == m_board[2][1] && m_board[2][0] == m_board[2][2] && m_board[2][0] != EMPTY_TILE)
 	{
+		//returns to show a player has won
 		return true;
 	}
-	// 7, 5, 3
+	//checks to see if the tiles in positions 7, 5, and 3 are equal and not empty
 	if (m_board[0][0] == m_board[1][1] && m_board[0][0] == m_board[2][2] && m_board[0][0] != EMPTY_TILE)
 	{
+		//returns to show a player has won
 		return true;
 	}
-	// 9, 5, 1
+	//checks to see if the tiles in positions 9, 5, and 1 are equal and not empty
 	if (m_board[0][2] == m_board[1][1] && m_board[0][2] == m_board[2][0] && m_board[0][2] != EMPTY_TILE)
 	{
+		//returns to show a player has won
 		return true;
 	}
+	//returns to show a player has not won
 	return false;
 }
 
+//checks to see if the game can continue or if the board is full
 bool Game::checkForTie()
 {
+	//iterate through the y-axis
 	for (int y = 0; y < BOARD_HEIGHT; y++)
 	{
+		//iterate through the x-axis
 		for (int x = 0; x < BOARD_WIDTH; x++)
 		{
+			//if any tile on the board is empty
 			if (m_board[y][x] == EMPTY_TILE)
 			{
+				//the game continues
 				return false;
 			}
 		}
 	}
+	//game ends in tie if no tiles are empty
 	return true;
 }
